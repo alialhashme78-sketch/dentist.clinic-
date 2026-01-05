@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إيليت سمايل VIP | عيادة الأسنان الفاخرة</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink-gold: #e5b0b0; /* لون وردي ذهبي فاخر */
+            --luxury-pink: #ff85a2;
+            --dark-deep: #080808;
+            --glass-bg: rgba(255, 192, 203, 0.03);
+            --glass-border: rgba(229, 176, 176, 0.3);
+            --text-white: #ffffff;
+            --text-gray: #d1d1d1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--dark-deep);
+            color: var(--text-white);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* حاوية الخلفية ثلاثية الأبعاد */
+        #canvas-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a0a0d 0%, #080808 100%);
+        }
+
+        /* الهيدر الفاخر */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(25px);
+            z-index: 1000; border-bottom: 1px solid var(--glass-border);
+        }
+        .logo { font-size: 28px; font-weight: 900; color: var(--pink-gold); letter-spacing: 2px; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-right: 25px; }
+        nav ul li a { color: #fff; text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 500; }
+        nav ul li a:hover { color: var(--luxury-pink); text-shadow: 0 0 10px var(--luxury-pink); }
+
+        /* الأقسام الأساسية */
+        section { padding: 100px 8%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; opacity: 0; }
+        .section-title { font-size: 4rem; color: var(--pink-gold); margin-bottom: 30px; text-align: center; font-weight: 900; }
+        .section-desc { text-align: center; max-width: 900px; margin: 0 auto 60px; font-size: 1.3rem; color: var(--text-gray); line-height: 1.8; }
+
+        /* الصفحة الرئيسية */
+        .hero { text-align: center; }
+        .hero h1 { font-size: 6.5rem; line-height: 1; margin-bottom: 30px; background: linear-gradient(45deg, #fff, var(--luxury-pink), var(--pink-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 15px rgba(229,176,176,0.2)); }
+        
+        /* الأزرار (Neumorphism) */
+        .btn-luxury {
+            padding: 22px 60px; background: var(--pink-gold); color: #000; border-radius: 60px;
+            font-weight: 900; text-decoration: none; display: inline-block;
+            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(229, 176, 176, 0.3); border: none; cursor: pointer;
+        }
+        .btn-luxury:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px var(--luxury-pink); background: #fff; }
+
+        /* كروت الخدمات 3D */
+        .grid-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
+        .card-3d {
+            background: var(--glass-bg); padding: 60px 40px; border-radius: 40px;
+            border: 1px solid var(--glass-border); text-align: center;
+            transition: 0.6s; backdrop-filter: blur(15px); transform-style: preserve-3d;
+        }
+        .card-3d:hover { border-color: var(--luxury-pink); background: rgba(255,133,162,0.05); }
+        .card-3d i { font-size: 70px; color: var(--luxury-pink); margin-bottom: 30px; }
+
+        /* فريق الأطباء */
+        .doctor-box { overflow: hidden; border-radius: 30px; position: relative; height: 500px; border: 1px solid var(--glass-border); }
+        .doctor-box img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+        .doctor-box:hover img { transform: scale(1.1); filter: contrast(1.1); }
+        .doctor-overlay { position: absolute; bottom: 0; width: 100%; padding: 40px; background: linear-gradient(transparent, #000); text-align: center; }
+
+        /* معرض الصور 4K */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-item { height: 350px; border-radius: 25px; overflow: hidden; border: 2px solid transparent; transition: 0.5s; }
+        .gallery-item:hover { border-color: var(--luxury-pink); transform: rotate(1deg); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* نموذج الحجز */
+        .booking-card { max-width: 1100px; margin: 0 auto; background: rgba(255,255,255,0.02); padding: 70px; border-radius: 50px; border: 1px solid var(--glass-border); backdrop-filter: blur(30px); }
+        .form-flex { display: flex; gap: 30px; margin-bottom: 30px; }
+        input, select, textarea { flex: 1; padding: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 20px; color: #fff; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--luxury-pink); background: rgba(255,255,255,0.1); }
+
+        /* زر واتساب العائم */
+        .whatsapp-btn { position: fixed; bottom: 40px; right: 40px; width: 75px; height: 75px; background: #25d366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 38px; z-index: 2000; box-shadow: 0 15px 40px rgba(37,211,102,0.4); animation: pulse 2s infinite; text-decoration: none; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        footer { padding: 100px 8% 50px; background: #000; text-align: center; border-top: 1px solid var(--glass-border); }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <header>
+        <div class="logo">ELITE SMILE VIP</div>
+        <nav>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#about">من نحن</a></li>
+                <li><a href="#services">الخدمات</a></li>
+                <li><a href="#doctors">الأطباء</a></li>
+                <li><a href="#tech">التقنيات</a></li>
+                <li><a href="#gallery">المعرض</a></li>
+                <li><a href="#booking">حجز موعد</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>ابتسامة وردية<br>بمعايير عالمية</h1>
+        <p class="section-desc">مرحباً بك في أرقى عيادة أسنان VIP، حيث نجمع بين الفن، التكنولوجيا، والرفاهية المطلقة لإعطائك الابتسامة التي تستحقها.</p>
+        <a href="#booking" class="btn-luxury">حجز موعد ملكي</a>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">فخامة التفاصيل</h2>
+        <div style="display: flex; gap: 60px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 400px;">
+                <p style="font-size: 1.5rem; line-height: 2;">نحن في إيليت سمايل، لا نقوم فقط بعلاج الأسنان، بل نصمم هوية بصرية جديدة لوجهك. عيادتنا مجهزة بأحدث ما توصلت إليه التكنولوجيا اليابانية والألمانية بلمسات وردية تمنحك الراحة النفسية التامة.</p>
+                <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="card-3d" style="padding: 20px;"><i class="fas fa-crown"></i><p>خدمة VIP 5 نجوم</p></div>
+                    <div class="card-3d" style="padding: 20px;"><i class="fas fa-gem"></i><p>ضمان ذهبي ممتد</p></div>
+                </div>
+            </div>
+            <div style="flex: 1; min-width: 400px;">
+                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800" style="width: 100%; border-radius: 50px; border: 2px solid var(--pink-gold);">
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 class="section-title">خدماتنا التخصصية</h2>
+        <div class="grid-services">
+            <div class="card-3d"><i class="fas fa-tooth"></i><h3>زراعة الأسنان</h3><p>زراعة بدون جراحة وبدون ألم.</p></div>
+            <div class="card-3d"><i class="fas fa-magic"></i><h3>تجميل الأسنان</h3><p>فينير وليمينير فائق الرقة.</p></div>
+            <div class="card-3d"><i class="fas fa-align-center"></i><h3>التقويم الشفاف</h3><p>تعديل وضعية الأسنان بخصوصية.</p></div>
+            <div class="card-3d"><i class="fas fa-sparkles"></i><h3>تبييض بالليزر</h3><p>بياض ناصع في جلسة واحدة.</p></div>
+            <div class="card-3d"><i class="fas fa-microscope"></i><h3>جراحة الفم</h3><p>عمليات دقيقة بأحدث المجاهر.</p></div>
+            <div class="card-3d"><i class="fas fa-radiation"></i><h3>أشعة 3D</h3><p>تصوير ثلاثي الأبعاد فوري.</p></div>
+            <div class="card-3d"><i class="fas fa-baby"></i><h3>أسنان الأطفال</h3><p>عناية لطيفة ومرحة للصغار.</p></div>
+            <div class="card-3d"><i class="fas fa-shield-heart"></i><h3>صحة اللثة</h3><p>علاجات متطورة لصحة الفم.</p></div>
+        </div>
+    </section>
+
+    <section id="doctors">
+        <h2 class="section-title">نخبة الاستشاريين</h2>
+        <div class="grid-services">
+            <div class="doctor-box">
+                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800">
+                <div class="doctor-overlay"><h3>د. خالد منصور</h3><p>خبير تجميل الأسنان</p></div>
+            </div>
+            <div class="doctor-box">
+                <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=800">
+                <div class="doctor-overlay"><h3>د. سارة الهاشمي</h3><p>استشارية جراحة وتجميل</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title">جولة في العيادة</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1504813184591-01592fd03cfd?auto=format&fit=crop&w=800"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800"></div>
+        </div>
+    </section>
+
+    <section id="booking">
+        <h2 class="section-title">احجز مقعدك الفاخر</h2>
+        <div class="booking-card">
+            <div class="form-flex">
+                <input type="text" id="custName" placeholder="اسمك الكامل">
+                <input type="tel" id="custPhone" placeholder="رقم الهاتف">
+            </div>
+            <div class="form-flex">
+                <select id="custService">
+                    <option>اختر نوع الخدمة</option>
+                    <option>زراعة أسنان</option>
+                    <option>تجميل (ابتسامة هوليود)</option>
+                    <option>تقويم شفاف</option>
+                    <option>تبييض أسنان</option>
+                </select>
+            </div>
+            <textarea id="custMsg" rows="5" placeholder="اكتب استفسارك هنا..."></textarea>
+            <button class="btn-luxury" style="width: 100%; margin-top: 40px;" onclick="sendWhatsApp()">تأكيد الحجز عبر واتساب</button>
+        </div>
+    </section>
+
+    <footer>
+        <h2 style="color: var(--pink-gold);">ELITE SMILE VIP</h2>
+        <p style="margin: 20px 0; color: var(--text-gray);">الجمال، الثقة، والابتسامة في مكان واحد.</p>
+        <div style="font-size: 20px; color: var(--pink-gold);">
+            <i class="fab fa-instagram"></i> <i class="fab fa-facebook"></i> <i class="fab fa-twitter"></i>
+        </div>
+        <hr style="margin: 40px 0; border: 0; border-top: 1px solid var(--glass-border);">
+        <p>&copy; 2026 جميع الحقوق محفوظة لعيادة إيليت سمايل</p>
+    </footer>
+
+    <a href="https://wa.me/967738505260" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // 1. خلفية Three.js (نجوم وردية وذهبية متحركة)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const starGeo = new THREE.BufferGeometry();
+        const starCoords = [];
+        for(let i=0; i<15000; i++) {
+            starCoords.push(Math.random()*2000-1000, Math.random()*2000-1000, Math.random()*2000-1000);
+        }
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
+        const starMat = new THREE.PointsMaterial({ color: 0xe5b0b0, size: 0.8 });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
+        camera.position.z = 1;
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            stars.rotation.y += 0.0005;
+            stars.rotation.x += 0.0002;
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        // 2. تحريكات GSAP عند التمرير
+        gsap.registerPlugin(ScrollTrigger);
+        document.querySelectorAll('section').forEach(section => {
+            gsap.to(section, {
+                scrollTrigger: { trigger: section, start: "top 80%" },
+                opacity: 1, y: -20, duration: 1.5, ease: "power4.out"
+            });
+        });
+
+        // 3. تأثير الـ 3D للكروت
+        document.querySelectorAll('.card-3d, .booking-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `perspective(1000px) rotateY(${x * 20}deg) rotateX(${y * -20}deg)`;
+            });
+            card.addEventListener('mouseleave', () => card.style.transform = `none`);
+        });
+
+        // 4. دالة الواتساب
+        function sendWhatsApp() {
+            const name = document.getElementById('custName').value;
+            const service = document.getElementById('custService').value;
+            const msg = document.getElementById('custMsg').value;
+            const phone = "967738505260";
+            const text = `مرحباً إيليت سمايل VIP%0Aالاسم: ${name}%0Aالخدمة: ${service}%0Aرسالة: ${msg}`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
